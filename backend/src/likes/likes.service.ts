@@ -10,8 +10,11 @@ export class LikesService {
     private readonly likeRepo: Repository<Like>,
   ) {}
 
-  findAll() {
-    return this.likeRepo.find({ relations: ['user', 'post'] });
+  async findByPost(postId: number) {
+    return this.likeRepo.find({
+      where: { post: { post_id: postId } },
+      relations: ['user', 'post'],
+    });
   }
 
   async create(data: Partial<Like>) {

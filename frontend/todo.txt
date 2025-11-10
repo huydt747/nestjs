@@ -1,8 +1,0 @@
-Trang chủ: phần article, phần giới thiệu giới cùng
-Comment: cần làm nút like chỉ đc like 1 lần. update: đã xong, bug là đăng xuất và đăng nhập lại, ui like màu hồng biến mất, nhưng ok
-
-Hệ thống tài khoản:
-Nút thông báo: thông báo phản hồi, thông báo game có cập nhật mới. REST API kiểu fetch khi cần, người dùng reload lại thì gọi 1 lần, chỉ gọi khi đã đăng nhập
-Nút theo dõi game để nhận cập nhật. Đã làm, làm thông báo khi game có update: chỉ thông báo khi có file mới
-
-Tailwind sử dụng thiết kế first mobile

@@ -5,11 +5,10 @@ import { LikesService } from './likes.service';
 export class LikesController {
   constructor(private readonly likesService: LikesService) {}
 
-  @Get()
-  getAll() {
-    return this.likesService.findAll();
+  @Get('post/:id')
+  getLikesByPost(@Param('postId') postId: number) {
+    return this.likesService.findByPost(postId);
   }
-
   @Post()
   create(@Body() body: any) {
     return this.likesService.create(body);
