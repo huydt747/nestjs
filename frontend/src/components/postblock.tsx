@@ -1,5 +1,7 @@
-import React from 'react';
+import axiosClient from '@/api/axiosClient';
+import { useAuth } from '@/auth/AuthContext';
 import { Post } from '@/types/types';
+import React, { useState } from 'react';
 
 interface PostBlockProps {
     post: Post;
@@ -18,8 +20,46 @@ export const PostBlock: React.FC<PostBlockProps> = ({ post }) => {
         });
     };
 
-    const commentCount = post.comments?.length || 0;
-    const likeCount = post.likes?.length || 0;
+    const auth = useAuth();
+
+    const [likes, setLikes] = useState(post.likes || []);
+    const [comments] = useState(post.comments || []);
+
+    const commentCount = comments.length || 0;
+    const likeCount = likes.length || 0;
+
+    const currentUserId = auth?.user?.user_id;
+
+    const existingLike = likes.find((l: any) => l.user?.user_id === currentUserId);
+    const isLiked = !!existingLike;
+
+    const [likeLoading, setLikeLoading] = useState(false);
+
+    const toggleLike = async () => {
+        if (!auth || !auth.isAuthenticated) {
+            alert('Vui lòng đăng nhập để thích bài viết');
+            return;
+        }
+
+        if (likeLoading) return;
+        setLikeLoading(true);
+
+        try {
+            if (isLiked && existingLike) {
+                await axiosClient.delete(`/likes/${existingLike.like_id}`);
+                setLikes((prev: any[]) => prev.filter((l) => l.like_id !== existingLike.like_id));
+            } else {
+                const res = await axiosClient.post('/likes', { user: { user_id: currentUserId }, post: { post_id: post.post_id } });
+                const created = res.data;
+                setLikes((prev: any[]) => [...prev, created]);
+            }
+        } catch (err: any) {
+            console.error('Like toggle error', err);
+            alert(err?.response?.data?.message || 'Lỗi khi thực hiện thao tác');
+        } finally {
+            setLikeLoading(false);
+        }
+    };
 
     return (
         <div className="border-[#c00091] border-2 rounded p-4 m-4 text-white hover:border-[#ff00c8] transition-colors">
@@ -48,7 +88,7 @@ export const PostBlock: React.FC<PostBlockProps> = ({ post }) => {
                     </svg>
                     <span>{commentCount} Bình luận</span>
                 </div>
-                <div className="like-count flex items-center gap-1 hover:text-white cursor-pointer transition">
+                <div onClick={toggleLike} className={`like-count flex items-center gap-1 cursor-pointer transition ${isLiked ? 'text-pink-400' : 'hover:text-white'}`}>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>

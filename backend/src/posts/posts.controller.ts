@@ -1,13 +1,15 @@
 import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Post as HttpPost,
-  Param,
-  Put,
-  UploadedFiles,
-  UseInterceptors,
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Post as HttpPost,
+    InternalServerErrorException,
+    Logger,
+    Param,
+    Put,
+    UploadedFiles,
+    UseInterceptors,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { existsSync, mkdirSync } from 'fs';
@@ -55,16 +57,38 @@ export class PostsController {
     }),
   )
   async create(@UploadedFiles() files: any[], @Body() body: any) {
-    const fileMetas = (files || []).map((f: any) => ({
-      filename: f.filename || f.originalname,
-      originalname: f.originalname,
-      mimetype: f.mimetype,
-      size: f.size,
-      path: (f as any).path || `uploads/posts/${f.filename || f.originalname}`,
-    }));
+    const logger = new Logger(PostsController.name);
+    try {
+      logger.debug('Create post payload body:' + JSON.stringify(body));
+      logger.debug(`Received ${files?.length || 0} uploaded files`);
 
-    const payload = { ...body, files: fileMetas };
-    return this.postsService.create(payload);
+      const fileMetas = (files || []).map((f: any) => ({
+        filename: f.filename || f.originalname,
+        originalname: f.originalname,
+        mimetype: f.mimetype,
+        size: f.size,
+        path: (f as any).path || `uploads/posts/${f.filename || f.originalname}`,
+      }));
+
+      // If client sent nested relations as JSON strings (FormData), parse them
+      let parsedBody: any = { ...body };
+      try {
+        if (typeof parsedBody.user === 'string') parsedBody.user = JSON.parse(parsedBody.user);
+      } catch (e) {
+        // ignore parse error
+      }
+      try {
+        if (typeof parsedBody.topic === 'string') parsedBody.topic = JSON.parse(parsedBody.topic);
+      } catch (e) {
+        // ignore parse error
+      }
+
+      const payload = { ...parsedBody, files: fileMetas };
+      return await this.postsService.create(payload);
+    } catch (err) {
+      logger.error('Error creating post', err as any);
+      throw new InternalServerErrorException('Lỗi khi tạo bài viết');
+    }
   }
 
   @Put(':id')
