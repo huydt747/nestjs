@@ -44,4 +44,3 @@ export const useAuth = () => {
 };
 
 export default AuthContext;
-// check quyền đăng nhập để làm abc ở đây
