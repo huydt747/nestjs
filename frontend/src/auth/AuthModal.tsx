@@ -5,11 +5,10 @@ import { useAuth } from './AuthContext';
 type Mode = 'signin' | 'signup' | 'reset';
 
 const passwordValid = (pw: string) => {
-  const minLen = 8;
-  const hasNumber = /\d/.test(pw);
-  const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(pw);
-  return pw.length >= minLen && hasNumber && hasSpecial;
+  const minLen = 6;
+  return pw.length >= minLen;
 };
+
 
 const AuthModal: React.FC<{ open: boolean; onClose: () => void; mode?: Mode; }> = ({ open, onClose, mode = 'signin' }) => {
   const [m, setM] = useState<Mode>(mode);
@@ -35,7 +34,7 @@ const AuthModal: React.FC<{ open: boolean; onClose: () => void; mode?: Mode; }> 
     if (!username) return setError('Vui lòng nhập username');
     if (!password) return setError('Vui lòng nhập mật khẩu');
     if (password !== confirm) return setError('Mật khẩu không trùng khớp');
-    if (!passwordValid(password)) return setError('Mật khẩu cần tối thiểu 8 ký tự, có số và ký tự đặc biệt');
+    if (!passwordValid(password)) return setError('Mật khẩu cần tối thiểu 6 ký tự');
     setLoading(true);
     try {
       const res = await axios.post('/auth/register', { username, password, confirmPassword: confirm });
@@ -69,7 +68,7 @@ const AuthModal: React.FC<{ open: boolean; onClose: () => void; mode?: Mode; }> 
     if (!username) return setError('Vui lòng nhập username');
     if (!password) return setError('Vui lòng nhập mật khẩu mới');
     if (password !== confirm) return setError('Mật khẩu không trùng khớp');
-    if (!passwordValid(password)) return setError('Mật khẩu cần tối thiểu 8 ký tự, có số và ký tự đặc biệt');
+    if (!passwordValid(password)) return setError('Mật khẩu cần tối thiểu 6 ký tự');
     setLoading(true);
     try {
       const res = await axios.post('/auth/reset', { username, newPassword: password, confirmNewPassword: confirm });
@@ -84,22 +83,22 @@ const AuthModal: React.FC<{ open: boolean; onClose: () => void; mode?: Mode; }> 
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-black/60" onClick={close} />
   <div className="relative w-full max-w-md bg-white rounded shadow-lg p-6 z-60">
-        <h3 className="text-xl font-semibold mb-4">{m === 'signin' ? 'Sign in' : m === 'signup' ? 'Sign up' : 'Reset password'}</h3>
+        <h3 className="text-xl font-semibold mb-4 text-black">{m === 'signin' ? 'Sign in' : m === 'signup' ? 'Sign up' : 'Reset password'}</h3>
 
   <label className="block text-sm text-gray-700">Username</label>
-        <input value={username} onChange={e => setUsername(e.target.value)} className="w-full border rounded px-3 py-2 mb-3" />
+        <input value={username} onChange={e => setUsername(e.target.value)} className="w-full border rounded px-3 py-2 mb-3 text-black" />
 
         {(m === 'signup' || m === 'signin') && (
           <>
             <label className="block text-sm text-gray-700">Password</label>
-            <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full border rounded px-3 py-2 mb-3" />
+            <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full border rounded px-3 py-2 mb-3 text-black" />
           </>
         )}
 
         {m === 'signup' && (
           <>
             <label className="block text-sm text-gray-700">Confirm password</label>
-            <input type="password" value={confirm} onChange={e => setConfirm(e.target.value)} className="w-full border rounded px-3 py-2 mb-3" />
+            <input type="password" value={confirm} onChange={e => setConfirm(e.target.value)} className="w-full border rounded px-3 py-2 mb-3 text-black" />
           </>
         )}
 

@@ -9,12 +9,9 @@ export class AuthService {
 
   async register(username: string, password: string, confirmPassword: string) {
     if (password !== confirmPassword) throw new BadRequestException('Mật khẩu không trùng khớp');
-    // password rules: min 8 chars, contains number and special character
-    const minLen = 8;
-    const hasNumber = /\d/.test(password);
-    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-    if (password.length < minLen || !hasNumber || !hasSpecial) {
-      throw new BadRequestException('Mật khẩu cần tối thiểu 8 ký tự, có số và ký tự đặc biệt');
+    const minLen = 6;
+    if (password.length < minLen) {
+      throw new BadRequestException('Mật khẩu cần tối thiểu 6 ký tự');
     }
     const exist = await this.usersService.findByUsername(username);
     if (exist) throw new BadRequestException('Tên tài khoản đã tồn tại');
@@ -39,11 +36,9 @@ export class AuthService {
   async resetPassword(username: string, newPassword: string, confirmNewPassword: string) {
     if (!username) throw new BadRequestException('Vui lòng cung cấp username');
     if (newPassword !== confirmNewPassword) throw new BadRequestException('Mật khẩu không trùng khớp');
-    const minLen = 8;
-    const hasNumber = /\d/.test(newPassword);
-    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
-    if (newPassword.length < minLen || !hasNumber || !hasSpecial) {
-      throw new BadRequestException('Mật khẩu cần tối thiểu 8 ký tự, có số và ký tự đặc biệt');
+    const minLen = 6;
+    if (newPassword.length < minLen) {
+      throw new BadRequestException('Mật khẩu cần tối thiểu 6 ký tự');
     }
 
     const user = await this.usersService.findByUsername(username);
