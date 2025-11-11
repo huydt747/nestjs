@@ -6,6 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  JoinColumn,
 } from 'typeorm';
 import { Comment } from './comment.entity';
 import { Like } from './like.entity';
@@ -18,17 +19,24 @@ export class Post {
   post_id: number;
 
   @ManyToOne(() => User, (user) => user.posts, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
   @ManyToOne(() => Topic, (topic) => topic.posts, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'topic_id' })
   topic: Topic;
 
   @Column('text')
   content: string;
 
-  // files metadata saved as JSON array: [{ filename, originalname, mimetype, size, path }]
   @Column('simple-json', { nullable: true })
-  files: { filename: string; originalname: string; mimetype: string; size: number; path?: string }[];
+  files: {
+    filename: string;
+    originalname: string;
+    mimetype: string;
+    size: number;
+    path?: string;
+  }[];
 
   @CreateDateColumn()
   created_at: Date;

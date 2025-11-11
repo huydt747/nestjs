@@ -14,13 +14,28 @@ export class CommentsService {
     return this.commentRepo.find({ relations: ['user', 'post'] });
   }
 
+  async findByPost(postId: number) {
+    return this.commentRepo.find({
+      where: { post: { post_id: postId } },
+      relations: ['user', 'post'],
+      order: { created_at: 'ASC' },
+    });
+  }
+
   findOne(id: number) {
     return this.commentRepo.findOne({ where: { comment_id: id }, relations: ['user', 'post'] });
   }
 
-  async create(data: Partial<Comment>) {
-    const comment = this.commentRepo.create(data);
-    return this.commentRepo.save(comment);
+  async create(data: any) {
+    const comment = this.commentRepo.create({
+      content: data.content,
+      post: { post_id: Number(data.post_id) },
+      user: { user_id: Number(data.user_id) },
+    });
+
+    const saved = await this.commentRepo.save(comment);
+    
+    return this.findOne(saved.comment_id);
   }
 
   async update(id: number, data: Partial<Comment>) {
