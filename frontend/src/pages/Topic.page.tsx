@@ -16,13 +16,18 @@ export const TopicPage: React.FC = () => {
             </div>
 
             <div className="max-w-7xl mx-auto">
-                <div className="flex justify-between">
-                    <div className="bg-[#C00091] p-4 mt-2 mx-4 rounded-xl">Chủ đề:</div>
-                    <div>Bộ lọc</div>
-                    <button className="bg-[#ab00c8] p-4 mt-2 mx-4 rounded-xl">Bài viết mới</button>
+                <div className="flex justify-between items-center">
+                    <div className="flex">
+                        <div className="bg-[#C00091] p-4 mt-2 mx-4 rounded-xl">Chủ đề: Talk</div>
+                        <div className="bg-[#C00091] p-4 mt-2 mx-4 rounded-xl">Bộ lọc: Mới nhất</div>
+                    </div>
+
+                    <button className="bg-[#ab00c8] p-4 mt-2 mx-4 rounded-xl">
+                        Bài viết mới
+                    </button>
                 </div>
                 <PostBlock/>
-                
+
                 <Pagination
                     currentPage={currentPage}
                     totalPages={totalPages}
