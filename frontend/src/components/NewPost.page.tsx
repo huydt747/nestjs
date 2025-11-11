@@ -96,7 +96,6 @@ export const NewPostPage: React.FC = () => {
             });
 
             alert('Đăng bài viết thành công!');
-            navigate('/');
         } catch (err: any) {
             console.error('Error creating post:', err);
             setError(err.response?.data?.message || 'Không thể đăng bài viết');

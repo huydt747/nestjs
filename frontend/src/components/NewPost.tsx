@@ -15,8 +15,9 @@ const NewPost: React.FC<Props> = ({ isOpen, onClose }) => {
   const [loadingTopics, setLoadingTopics] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [files, setFiles] = useState<File[]>([]);
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const currentUserId = user?.user_id;
 
-  const currentUserId = 1; // adapt to your auth flow
 
   useEffect(() => {
     const fetchTopics = async () => {
@@ -66,13 +67,8 @@ const NewPost: React.FC<Props> = ({ isOpen, onClose }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!selectedTopicId) {
-      setError('Vui lòng chọn chủ đề');
-      return;
-    }
-
-    if (!content.trim() && files.length === 0) {
-      setError('Vui lòng nhập nội dung hoặc thêm file');
+    if (!selectedTopicId || !currentUserId) {
+      setError('Thiếu thông tin người đăng hoặc chủ đề');
       return;
     }
 
@@ -81,13 +77,10 @@ const NewPost: React.FC<Props> = ({ isOpen, onClose }) => {
       setError(null);
 
       const formData = new FormData();
-      formData.append('user', JSON.stringify({ user_id: currentUserId }));
-      formData.append('topic', JSON.stringify({ topic_id: selectedTopicId }));
+      formData.append('user_id', String(currentUserId));
+      formData.append('topic_id', String(selectedTopicId));
       formData.append('content', content.trim());
-
-      files.forEach((f) => {
-        formData.append('files', f);
-      });
+      files.forEach((f) => formData.append('files', f));
 
       await axiosClient.post('/posts', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
