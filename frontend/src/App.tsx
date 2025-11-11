@@ -1,7 +1,8 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import  MainPage from './pages/Main.page';
+import { TopicPage } from './pages/Topic.page';
 import Header from './components/header';
-import MainPage from './pages/Main.page';
 
 export const App: React.FC = () => {
 	return (
@@ -9,6 +10,13 @@ export const App: React.FC = () => {
 			<Header />
 			<Routes>
 				<Route path='/' element={<MainPage />} />
+
+				{/* <Route path='/topic/:id' element={<MainPage />} /> */}
+				<Route path='/topic/:id' element={<TopicPage />} />
+				{/* <Route path='/post/new' element={<MainPage />} /> */}
+
+				{/* <Route path='/login' element={<MainPage />} /> */}
+				{/* <Route path='/register' element={<MainPage />} /> */}
 			</Routes>
 		</div>
 	);

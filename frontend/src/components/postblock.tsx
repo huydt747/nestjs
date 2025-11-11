@@ -1,6 +1,6 @@
 export const PostBlock: React.FC = () => {
 	return (
-		<div className="border-[#c00091] border-2 rounded p-4 m-4">
+		<div className="border-[#c00091] border-2 rounded p-4 m-4 text-white">
 			<div className="flex justify-between items-center mb-2">
 				<div className="flex space-x-4">
 					<div className="name">{'>>'}Tên</div>
