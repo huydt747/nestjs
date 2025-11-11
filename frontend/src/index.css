@@ -2,10 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+
 html {
+<<<<<<< Updated upstream
 	scroll-behavior: smooth;
 	color: white;
 	overflow-x: hidden;
+=======
+	height: 100%;
+>>>>>>> Stashed changes
 }
 
 ul {

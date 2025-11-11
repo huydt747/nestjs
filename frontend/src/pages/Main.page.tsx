@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import React from "react";
 import bg from "../../assets/background.png";
 import r from "../../assets/R.png";
@@ -282,6 +283,22 @@ export const MainPage: React.FC = () => {
 
 	  <NewPostPage>
 	  </NewPostPage>
+=======
+import { PostBlock } from "@/components/postblock";
+import { CommentBlock } from "@/components/commentblock";
+import { ReplyBlock } from "@/components/replyblock";
+import { Footer } from "@/components/common/footer";
+
+export const MainPage: React.FC = () => {
+    return (
+    <div className="flex flex-col min-h-screen max-w-7xl mx-auto">
+      <main className="flex-grow">
+        <PostBlock />
+        <CommentBlock />
+        {/* <ReplyBlock /> */}
+      </main>
+      <Footer />
+>>>>>>> Stashed changes
     </div>
   );
 };
