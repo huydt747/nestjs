@@ -54,7 +54,7 @@ const MainPage: React.FC = () => {
       {/* Example content area */}
 
       {/* Tags section with right-side image (5-column layout) */}
-      <section className="py-12 bg-gray-900 w-screen px-10">
+      <section className="pt-4 bg-gray-900 w-screen px-10">
         <div className="max-w-full">
           <div className="grid grid-cols-1 lg:grid-cols-6 gap-4 items-start">
             {/* Japanese Culture Column */}
@@ -218,7 +218,6 @@ const MainPage: React.FC = () => {
                 <li className="hover:text-[#8927f4] cursor-pointer">
                   • Outdoors
                 </li>
-                <li className="hover:text-[#8927f4] cursor-pointer">• Toys</li>
               </ul>
             </div>
 
@@ -259,7 +258,7 @@ const MainPage: React.FC = () => {
 
             {/* Right: decorative image / space for artwork (larger, shifted left, not cropped) */}
             <div className="lg:col-span-1 relative overflow-visible">
-              <div className="w-full h-[500px] lg:h-[600px] relative">
+              <div className="w-full lg:h-[460px] relative">
                 {/* Use an <img> so it's never cropped (object-contain) and can overflow into column 4 */}
                 <img
                   src={r}
