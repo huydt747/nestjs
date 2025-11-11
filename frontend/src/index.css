@@ -12,3 +12,49 @@ html {
 ul {
   	list-style-type: none;
 }
+
+:root{
+	--c-black: #000000;
+	--c-800061: #800061;
+	--c-C00091: #C00091;
+	--c-AB00C8: #AB00C8;
+	--c-9600FF: #9600FF;
+}
+
+.auth-bg {
+	background: linear-gradient(135deg, var(--c-800061), var(--c-C00091), var(--c-AB00C8), var(--c-9600FF));
+}
+
+.btn-primary{
+	background: linear-gradient(90deg,var(--c-AB00C8),var(--c-9600FF));
+	color: white;
+}
+
+.btn-outline{
+	border: 2px solid var(--c-9600FF);
+	color: var(--c-9600FF);
+}
+
+.input-primary{
+	background: rgba(255,255,255,0.03);
+	border: 1px solid rgba(255,255,255,0.08);
+	color: white;
+}
+
+.error-text{ color: #ff6b6b }
+
+.auth-card{ background: rgba(0,0,0,0.5); border-radius: 12px }
+
+/* frameless password toggle (only the eye icon) */
+.pw-toggle{
+	background: transparent;
+	border: none;
+	padding: 0 6px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	color: white;
+}
+.pw-toggle svg{ width:20px; height:20px; opacity:0.9 }
+.pw-toggle:hover svg{ opacity:1 }
