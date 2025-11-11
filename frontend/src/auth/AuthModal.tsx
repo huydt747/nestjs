@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from '../api/axiosClient';
+import { useAuth } from './AuthContext';
 
 type Mode = 'signin' | 'signup' | 'reset';
 
@@ -17,6 +18,7 @@ const AuthModal: React.FC<{ open: boolean; onClose: () => void; mode?: Mode; }> 
   const [confirm, setConfirm] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const auth = useAuth();
 
   if (!open) return null;
 
@@ -51,6 +53,11 @@ const AuthModal: React.FC<{ open: boolean; onClose: () => void; mode?: Mode; }> 
     try {
       const res = await axios.post('/auth/login', { username, password });
       console.log('login', res.data);
+      // set auth state if API returns user data
+      try {
+        const user = res.data?.user ?? { username };
+        auth.setUser(user as any);
+      } catch {}
       close();
     } catch (e: any) {
       setError(e?.response?.data?.message || e.message || 'Lỗi đăng nhập');
@@ -76,10 +83,10 @@ const AuthModal: React.FC<{ open: boolean; onClose: () => void; mode?: Mode; }> 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-black/60" onClick={close} />
-      <div className="relative w-full max-w-md bg-white rounded shadow-lg p-6 z-60">
+  <div className="relative w-full max-w-md bg-white rounded shadow-lg p-6 z-60">
         <h3 className="text-xl font-semibold mb-4">{m === 'signin' ? 'Sign in' : m === 'signup' ? 'Sign up' : 'Reset password'}</h3>
 
-        <label className="block text-sm text-gray-700">Username</label>
+  <label className="block text-sm text-gray-700">Username</label>
         <input value={username} onChange={e => setUsername(e.target.value)} className="w-full border rounded px-3 py-2 mb-3" />
 
         {(m === 'signup' || m === 'signin') && (

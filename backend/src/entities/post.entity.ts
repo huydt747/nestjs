@@ -1,16 +1,16 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  UpdateDateColumn,
+  Entity,
   ManyToOne,
   OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { User } from './user.entity';
-import { Topic } from './topic.entity';
 import { Comment } from './comment.entity';
 import { Like } from './like.entity';
+import { Topic } from './topic.entity';
+import { User } from './user.entity';
 
 @Entity('posts')
 export class Post {
@@ -25,6 +25,10 @@ export class Post {
 
   @Column('text')
   content: string;
+
+  // files metadata saved as JSON array: [{ filename, originalname, mimetype, size, path }]
+  @Column('simple-json', { nullable: true })
+  files: { filename: string; originalname: string; mimetype: string; size: number; path?: string }[];
 
   @CreateDateColumn()
   created_at: Date;

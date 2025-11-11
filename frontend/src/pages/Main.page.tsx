@@ -1,9 +1,15 @@
-import React from "react";
+import NewPost from '@/components/NewPost';
+import React, { useState } from "react";
 import bg from "../../assets/background.png";
 import r from "../../assets/R.png";
-import { NewPostPage } from "./NewPost.page";
+import AuthModal from '@/auth/AuthModal';
+import { useAuth } from '@/auth/AuthContext';
 
 export const MainPage: React.FC = () => {
+  const [showNewPost, setShowNewPost] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<'signin'|'signup'>('signin');
+  const auth = useAuth();
   return (
     <div className="">
       {/* Background section with floating topic buttons */}
@@ -18,6 +24,8 @@ export const MainPage: React.FC = () => {
         </h2>
 
         <div className="relative z-30 w-full max-w-6xl mx-auto mt-20">
+          {/* Create New Post button */}
+          
           <div className="grid grid-cols-4 gap-12 px-12">
             {/* Column 1 - SHITTALK (nút lẻ - cao hơn) */}
             <div className="flex justify-center">
@@ -51,17 +59,6 @@ export const MainPage: React.FC = () => {
       </section>
 
       {/* Example content area */}
-
-
-
-
-
-
-
-
-
-
-
 
       {/* Tags section with right-side image (5-column layout) */}
       <section className="pt-4 bg-gray-900 w-screen px-10">
@@ -280,8 +277,21 @@ export const MainPage: React.FC = () => {
         </div>
       </section>
 
-	  <NewPostPage>
-	  </NewPostPage>
+	  <div className="bg-gray-900 w-screen px-10">
+            <button
+              onClick={() => {
+                if (auth.isAuthenticated) setShowNewPost(true);
+                else {
+                  setAuthMode('signin');
+                  setAuthOpen(true);
+                  alert('Vui lòng đăng nhập hoặc đăng ký để tạo bài viết');
+                }
+              }}
+              className="px-4 py-2 bg-[#9600ff] text-white border border-[#9600ff]"
+            >Create New Post</button>
+          </div>
+  <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} mode={authMode} />
+      <NewPost isOpen={showNewPost} onClose={() => setShowNewPost(false)} />
     </div>
   );
 };
