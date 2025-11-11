@@ -1,5 +1,5 @@
 import React from "react";
-import Pagination from "@/components/Pagination";
+import Pagination from "@/components/pagination";
 import { PostBlock } from "@/components/postblock";
 
 export const TopicPage: React.FC = () => {
