@@ -2,17 +2,15 @@ import React from "react";
 import bg from "../../assets/background.png";
 import r from "../../assets/R.png";
 
-const MainPage: React.FC = () => {
+export const MainPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="">
       {/* Background section with floating topic buttons */}
       <section className="relative w-full h-[300px] sm:h-[340px] md:h-[420px] lg:h-[480px] flex flex-col items-center justify-start">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${bg})` }}
         />
-        {/* lighter overlay so fish remain visible but darker than page */}
-        {/* <div className="absolute inset-0 bg-black/55"></div> */}
 
         <h2 className="relative z-30 text-[#8927f4] text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-wider text-center mt-8">
           HOT TOPIC
@@ -53,9 +51,20 @@ const MainPage: React.FC = () => {
 
       {/* Example content area */}
 
+
+
+
+
+
+
+
+
+
+
+
       {/* Tags section with right-side image (5-column layout) */}
       <section className="pt-4 bg-gray-900 w-screen px-10">
-        <div className="max-w-full">
+        <div className="">
           <div className="grid grid-cols-1 lg:grid-cols-6 gap-4 items-start">
             {/* Japanese Culture Column */}
             <div className="lg:col-span-1">
@@ -259,7 +268,6 @@ const MainPage: React.FC = () => {
             {/* Right: decorative image / space for artwork (larger, shifted left, not cropped) */}
             <div className="lg:col-span-1 relative overflow-visible">
               <div className="w-full lg:h-[460px] relative">
-                {/* Use an <img> so it's never cropped (object-contain) and can overflow into column 4 */}
                 <img
                   src={r}
                   alt="art"
@@ -273,5 +281,3 @@ const MainPage: React.FC = () => {
     </div>
   );
 };
-
-export default MainPage;
