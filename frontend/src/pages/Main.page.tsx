@@ -1,9 +1,9 @@
+import { useAuth } from '@/auth/AuthContext';
+import AuthModal from '@/auth/AuthModal';
 import NewPost from '@/components/NewPost';
 import React, { useState } from "react";
 import bg from "../../assets/background.png";
 import r from "../../assets/R.png";
-import AuthModal from '@/auth/AuthModal';
-import { useAuth } from '@/auth/AuthContext';
 
 export const MainPage: React.FC = () => {
   const [showNewPost, setShowNewPost] = useState(false);
