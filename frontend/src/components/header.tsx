@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+import AuthModal from '../auth/AuthModal';
 
 const Header: React.FC = () => {
+    const [open, setOpen] = useState(false);
+    const [startMode, setStartMode] = useState<'signin'|'signup'>('signin');
+
     return (
+        <>
         <header className="bg-[#222222] text-white py-3 px-6">
             <div className="max-w-7xl mx-auto flex items-center justify-between">
                 {/* Logo */}
@@ -44,15 +49,18 @@ const Header: React.FC = () => {
 
                 {/* Navigation */}
                 <div className="flex items-center space-x-6">
-                    <div className="text-sm font-medium text-white uppercase tracking-wide cursor-pointer hover:opacity-90 transition-opacity">
+                    <div onClick={() => { setStartMode('signin'); setOpen(true); }} className="text-sm font-medium text-white uppercase tracking-wide cursor-pointer hover:opacity-90 transition-opacity">
                         Sign in
                     </div>
-                    <div className="text-sm font-medium text-white uppercase tracking-wide cursor-pointer hover:opacity-90 transition-opacity">
+
+                    <div onClick={() => { setStartMode('signup'); setOpen(true); }} className="text-sm font-medium text-white uppercase tracking-wide cursor-pointer hover:opacity-90 transition-opacity">
                         Sign up
                     </div>
                 </div>
             </div>
         </header>
+        <AuthModal open={open} onClose={() => setOpen(false)} mode={startMode} />
+        </>
     );
 };
 

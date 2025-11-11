@@ -1,6 +1,7 @@
 import React from "react";
 import bg from "../../assets/background.png";
 import r from "../../assets/R.png";
+import { NewPostPage } from "./NewPost.page";
 
 const MainPage: React.FC = () => {
   return (
@@ -270,6 +271,9 @@ const MainPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+	  <NewPostPage>
+	  </NewPostPage>
     </div>
   );
 };
