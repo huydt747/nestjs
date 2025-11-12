@@ -37,7 +37,7 @@ export const PostPage: React.FC = () => {
   if (!post) return <div>Loading...</div>;
 
   return (
-    <div className="bg-black min-h-screen">
+    <div className="bg-black max-w-7xl mx-auto min-h-screen">
       <PostBlock post={post} />
       {comments.map((c) => (
         <CommentBlock key={c.comment_id} comment={c} />

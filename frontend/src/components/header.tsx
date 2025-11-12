@@ -117,7 +117,7 @@ const Header: React.FC = () => {
                 {/* Dropdown */}
                 {dropdownOpen && (
                   <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-lg shadow-lg py-2 z-50">
-                    <div
+                    {/* <div
                       onClick={() => {
                         navigate("/post/new");
                         setDropdownOpen(false);
@@ -125,7 +125,7 @@ const Header: React.FC = () => {
                       className="flex items-center px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
                     >
                       <User className="w-4 h-4 mr-2" /> New Post
-                    </div>
+                    </div> */}
 
                     {/* <div
                       onClick={() => {

@@ -102,7 +102,7 @@ export const MainPage: React.FC = () => {
           }}
           className="px-6 py-3 bg-[#9600ff] text-white border border-[#9600ff] rounded-lg hover:bg-[#7a00cc] transition"
         >
-          ✏️ Create New Post
+          Create New Post
         </button>
       </div>
 
