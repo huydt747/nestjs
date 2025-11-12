@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
+import axiosClient from '@/api/axiosClient';
 import Pagination from "@/components/pagination";
 import { PostBlock } from "@/components/postblock";
-import axiosClient from '@/api/axiosClient';
-import { Post } from '@/types/types';
+import { Post, Topic } from '@/types/types';
+import React, { useEffect, useState } from "react";
 
 export const TopicPage: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [selectedTopic, setSelectedTopic] = useState<string>('all');
+    const [selectedTopic, setSelectedTopic] = useState<number | 'all'>('all');
     const [sortBy, setSortBy] = useState<'newest' | 'oldest'>('newest');
+    const [topics, setTopics] = useState<Topic[]>([]);
+    const [loadingTopics, setLoadingTopics] = useState<boolean>(true);
     
     const totalPages = 10;
     const postsPerPage = 10;
@@ -25,10 +27,10 @@ export const TopicPage: React.FC = () => {
                 
                 let filteredPosts = res.data || [];
                 
-                // Lọc theo topic nếu có
+                // Lọc theo topic nếu có (filter by topic_id)
                 if (selectedTopic !== 'all') {
                     filteredPosts = filteredPosts.filter(
-                        (post: Post) => post.topic.topic_name === selectedTopic
+                        (post: Post) => post.topic?.topic_id === selectedTopic
                     );
                 }
                 
@@ -51,12 +53,28 @@ export const TopicPage: React.FC = () => {
         fetchPosts();
     }, [selectedTopic, sortBy]);
 
+    // Load topic list for filter
+    useEffect(() => {
+        const fetchTopics = async () => {
+            try {
+                setLoadingTopics(true);
+                const res = await axiosClient.get('/topics');
+                setTopics(res.data || []);
+            } catch (err) {
+                console.error('Error fetching topics for filter', err);
+            } finally {
+                setLoadingTopics(false);
+            }
+        };
+        fetchTopics();
+    }, []);
+
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    const handleTopicChange = (topic: string) => {
+    const handleTopicChange = (topic: number | 'all') => {
         setSelectedTopic(topic);
         setCurrentPage(1);
     };
@@ -86,21 +104,39 @@ export const TopicPage: React.FC = () => {
             <div className="max-w-7xl mx-auto min-h-screen">
                 <div className="flex justify-between items-center">
                     <div className="flex">
+                            <div className="mx-4 mt-2">
+                                <div className="text-sm text-white mb-2">Chọn chủ đề</div>
+                                <div className="flex flex-wrap gap-2">
+                                    <button
+                                        className={`px-3 py-1 border rounded-none ${selectedTopic === 'all' ? 'bg-[#C00091] text-white border-[#C00091]' : 'bg-white text-gray-700 border-gray-200'} `}
+                                        onClick={() => handleTopicChange('all')}
+                                    >
+                                        Tất cả
+                                    </button>
+                                    {loadingTopics ? (
+                                        <div className="text-white px-3 py-2">Đang tải...</div>
+                                    ) : (
+                                        topics.map((t) => (
+                                            <button
+                                                key={t.topic_id}
+                                                className={`px-3 py-1 border rounded-none ${selectedTopic === t.topic_id ? 'bg-[#C00091] text-white border-[#C00091]' : 'bg-white text-gray-700 border-gray-200'}`}
+                                                onClick={() => handleTopicChange(t.topic_id)}
+                                            >
+                                                {t.topic_name}
+                                            </button>
+                                        ))
+                                    )}
+                                </div>
+                            </div>
                         <button 
-                            className="bg-[#C00091] p-4 mt-2 mx-4 rounded-xl hover:bg-[#a0007a] transition"
-                            onClick={() => handleTopicChange('all')}
-                        >
-                            Chủ đề: {selectedTopic === 'all' ? 'Tất cả' : selectedTopic}
-                        </button>
-                        <button 
-                            className="bg-[#C00091] p-4 mt-2 mx-4 rounded-xl hover:bg-[#a0007a] transition"
+                            className="bg-[#C00091] px-4 py-2 mt-2 mx-4 rounded-none hover:bg-[#a0007a] transition text-white border border-[#C00091]"
                             onClick={handleSortChange}
                         >
                             Bộ lọc: {sortBy === 'newest' ? 'Mới nhất' : 'Cũ nhất'}
                         </button>
                     </div>
 
-                    <button className="bg-[#ab00c8] p-4 mt-2 mx-4 rounded-xl hover:bg-[#8b00a8] transition">
+                    <button className="bg-[#ab00c8] px-4 py-2 mt-2 mx-4 rounded-none hover:bg-[#8b00a8] transition text-white border border-[#ab00c8]">
                         Bài viết mới
                     </button>
                 </div>

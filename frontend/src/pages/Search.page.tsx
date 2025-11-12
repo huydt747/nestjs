@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import axiosClient from "@/api/axiosClient";
 import Pagination from "@/components/pagination";
 import { PostBlock } from "@/components/postblock";
-import axiosClient from "@/api/axiosClient";
-import { Post } from "@/types/types";
+import { Post, Topic } from "@/types/types";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 export const SearchPage: React.FC = () => {
   const { search } = useLocation();
@@ -14,7 +14,9 @@ export const SearchPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<"newest" | "oldest">("newest");
-
+  const [topics, setTopics] = useState<Topic[]>([]);
+  const [loadingTopics, setLoadingTopics] = useState<boolean>(true);
+  const [selectedTopic, setSelectedTopic] = useState<number | 'all'>('all');
   const postsPerPage = 10;
 
   useEffect(() => {
@@ -25,6 +27,11 @@ export const SearchPage: React.FC = () => {
         setError(null);
         const res = await axiosClient.get(`/posts/search/${keyword}`);
         let data = res.data || [];
+
+        // apply topic filter if selected
+        if (selectedTopic !== 'all') {
+          data = data.filter((post: Post) => post.topic?.topic_id === selectedTopic);
+        }
 
         // Sắp xếp theo ngày
         data.sort((a: Post, b: Post) => {
@@ -43,7 +50,23 @@ export const SearchPage: React.FC = () => {
     };
 
     fetchPosts();
-  }, [keyword, sortBy]);
+  }, [keyword, sortBy, selectedTopic]);
+
+  // load topics for filter list
+  useEffect(() => {
+    const fetchTopics = async () => {
+      try {
+        setLoadingTopics(true);
+        const res = await axiosClient.get('/topics');
+        setTopics(res.data || []);
+      } catch (err) {
+        console.error('Error loading topics for search filter', err);
+      } finally {
+        setLoadingTopics(false);
+      }
+    };
+    fetchTopics();
+  }, []);
 
   // Pagination
   const indexOfLastPost = currentPage * postsPerPage;
@@ -72,6 +95,32 @@ export const SearchPage: React.FC = () => {
           >
             Bộ lọc: {sortBy === "newest" ? "Mới nhất" : "Cũ nhất"}
           </button>
+        </div>
+
+        {/* Topic filter list (search results) */}
+        <div className="mx-4 mt-4">
+          <div className="text-sm text-white mb-2">Lọc theo chủ đề</div>
+          <div className="flex flex-wrap gap-2">
+            <button
+              className={`px-3 py-1 border rounded-none ${selectedTopic === 'all' ? 'bg-[#C00091] text-white border-[#C00091]' : 'bg-white text-gray-700 border-gray-200'}`}
+              onClick={() => { setSelectedTopic('all'); setCurrentPage(1); }}
+            >
+              Tất cả
+            </button>
+            {loadingTopics ? (
+              <div className="text-white px-3 py-2">Đang tải...</div>
+            ) : (
+              topics.map((t) => (
+                <button
+                  key={t.topic_id}
+                  className={`px-3 py-1 border rounded-none ${selectedTopic === t.topic_id ? 'bg-[#C00091] text-white border-[#C00091]' : 'bg-white text-gray-700 border-gray-200'}`}
+                  onClick={() => { setSelectedTopic(t.topic_id); setCurrentPage(1); }}
+                >
+                  {t.topic_name}
+                </button>
+              ))
+            )}
+          </div>
         </div>
 
         {loading && (

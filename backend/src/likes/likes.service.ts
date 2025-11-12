@@ -18,6 +18,28 @@ export class LikesService {
   }
 
   async create(data: Partial<Like>) {
+    // Normalize possible JSON-stringified nested entries
+    let userId: number | undefined;
+    let postId: number | undefined;
+    try {
+      if (typeof (data as any).user === 'string') (data as any).user = JSON.parse((data as any).user);
+    } catch (e) {}
+    try {
+      if (typeof (data as any).post === 'string') (data as any).post = JSON.parse((data as any).post);
+    } catch (e) {}
+
+    userId = (data as any).user?.user_id || (data as any).user_id || undefined;
+    postId = (data as any).post?.post_id || (data as any).post_id || undefined;
+
+    if (userId && postId) {
+      // If like already exists, return it instead of throwing unique constraint
+      const existing = await this.likeRepo.findOne({
+        where: { user: { user_id: userId }, post: { post_id: postId } },
+        relations: ['user', 'post'],
+      });
+      if (existing) return existing;
+    }
+
     const like = this.likeRepo.create(data);
     return this.likeRepo.save(like);
   }

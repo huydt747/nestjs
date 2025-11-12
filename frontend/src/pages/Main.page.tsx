@@ -88,20 +88,6 @@ export const MainPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Danh sách bài viết */}
-      <section className="max-w-5xl mx-auto mt-10 px-4">
-        <h3 className="text-2xl font-bold text-[#ff00c8] mb-4">
-          🔥 Bài viết mới nhất
-        </h3>
-
-        {posts.length === 0 ? (
-          <div className="text-gray-400 text-center py-8">
-            Chưa có bài viết nào.
-          </div>
-        ) : (
-          posts.map((post) => <PostBlock key={post.post_id} post={post} />)
-        )}
-      </section>
 
       {/* Nút tạo bài mới */}
       <div className="bg-gray-900 w-screen px-10 py-6 flex justify-center">
@@ -114,7 +100,7 @@ export const MainPage: React.FC = () => {
               alert("Vui lòng đăng nhập hoặc đăng ký để tạo bài viết");
             }
           }}
-          className="px-6 py-3 bg-[#9600ff] text-white border border-[#9600ff] rounded-lg hover:bg-[#7a00cc] transition"
+          className="px-6 py-3 bg-[#9600ff] text-white border border-[#9600ff] hover:bg-[#7a00cc] transition"
         >
           Create New Post
         </button>
@@ -127,6 +113,23 @@ export const MainPage: React.FC = () => {
         mode={authMode}
       />
       <NewPost isOpen={showNewPost} onClose={() => setShowNewPost(false)} />
+
+        {/* Danh sách bài viết */}
+      <section className="max-w-5xl mx-auto mt-10 px-4">
+        <h3 className="text-2xl font-bold text-[#ff00c8] mb-4">
+          🔥 New post
+        </h3>
+
+        {posts.length === 0 ? (
+          <div className="text-gray-400 text-center py-8">
+            Chưa có bài viết nào.
+          </div>
+        ) : (
+          posts.map((post) => <PostBlock key={post.post_id} post={post} />)
+        )}
+      </section>
     </div>
+
+    
   );
 };

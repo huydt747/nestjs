@@ -3,7 +3,7 @@ import r from "../../assets/R.png";
 
 export const Footer: React.FC = () => {
     return (
-        <footer className="w-full bg-neutral-900 text-neutral-400 text-sm border-t border-neutral-800 py-5">
+        <footer className="footer">
             {/* Nội dung chính */}
             <section className="pt-4 bg-gray-900 w-screen px-10">
                 <div className="">
@@ -220,75 +220,6 @@ export const Footer: React.FC = () => {
                     </div>
                 </div>
             </section>
-            <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-6 items-start">
-                {/* Left column — Giới thiệu */}
-                <div className="md:col-span-2 md:pr-4">
-                    <h3 className="text-white font-semibold mb-4">MEO FORUM</h3>
-                    <p className="text-neutral-500 leading-relaxed">
-                        Nơi chia sẻ, đọc báo, nhắn tin và bàn luận về mọi chủ đề trong cộng
-                        đồng.
-                    </p>
-                </div>
-
-                {/* Middle column — spacer (trống) */}
-                <div className="hidden md:block md:col-span-1"></div>
-
-                {/* Right column — Liên kết nhanh */}
-                <div className="md:col-span-1 flex flex-col md:items-end items-center mb-4">
-                    <div className="w-full max-w-xs text-left">
-                        <h4 className="text-white font-semibold mb-3 uppercase tracking-wide">
-                            Liên kết nhanh
-                        </h4>
-                        <ul className="flex flex-col gap-2 list-none pl-0 ml-0 text-left">
-                            <li>
-                                <a
-                                    href="/Video_Games"
-                                    className="hover:text-white transition-colors duration-200"
-                                >
-                                    Video Games
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="/Japanese_Culture"
-                                    className="hover:text-white transition-colors duration-200"
-                                >
-                                    Japanese Culture
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="/Creative"
-                                    className="hover:text-white transition-colors duration-200"
-                                >
-                                    Creative
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="/Interests"
-                                    className="hover:text-white transition-colors duration-200"
-                                >
-                                    Interests
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="/Other"
-                                    className="hover:text-white transition-colors duration-200"
-                                >
-                                    Other
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            {/* Dòng bản quyền */}
-            <div className="border-t border-neutral-800 text-center pt-4 text-xs text-neutral-600">
-                © 2025 MEO FORUM — Một dự án cộng đồng, không liên quan đến voz.vn.
-            </div>
         </footer>
     );
 };
