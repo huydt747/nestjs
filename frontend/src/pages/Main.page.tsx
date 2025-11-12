@@ -85,7 +85,13 @@ export const MainPage: React.FC = () => {
             Chưa có bài viết nào.
           </div>
         ) : (
-          posts.map((post) => <PostBlock key={post.post_id} post={post} />)
+          posts.map((post) => (
+    <PostBlock 
+      key={post.post_id} 
+      post={post} 
+      currentUserId={auth.user?.user_id || 0} 
+    />
+  ))
         )}
       </section>
 

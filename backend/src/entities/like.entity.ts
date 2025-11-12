@@ -15,14 +15,14 @@ export class Like {
   @PrimaryGeneratedColumn()
   like_id: number;
 
-  @ManyToOne(() => User, (user) => user.likes, { onDelete: 'CASCADE' })
+  @ManyToOne(() => User, (user) => user.likes, { onDelete: 'CASCADE', nullable: false })
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToOne(() => Post, (post) => post.likes, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Post, (post) => post.likes, { onDelete: 'CASCADE', nullable: false })
   @JoinColumn({ name: 'post_id' })
   post: Post;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'datetime', precision: 6 })
   created_at: Date;
 }

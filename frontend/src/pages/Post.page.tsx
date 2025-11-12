@@ -14,10 +14,24 @@ export const PostPage: React.FC = () => {
   const [post, setPost] = useState<Post | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
 
+  const currentUserId = user?.user_id || 0;
+
   useEffect(() => {
     if (!id) return;
-    postApi.getOne(Number(id)).then((res) => setPost(res.data));
-    commentApi.getByPost(Number(id)).then((res) => setComments(res.data));
+
+    const fetchData = async () => {
+      try {
+        const postRes = await postApi.getOne(Number(id));
+        setPost(postRes.data);
+
+        const commentRes = await commentApi.getByPost(Number(id));
+        setComments(commentRes.data);
+      } catch (err) {
+        console.error('Error fetching post/comments:', err);
+      }
+    };
+
+    fetchData();
   }, [id]);
 
   const handleNewComment = async (content: string) => {
@@ -29,16 +43,20 @@ export const PostPage: React.FC = () => {
       content 
     };
     
-    await commentApi.create(newComment);
-    const res = await commentApi.getByPost(Number(id));
-    setComments(res.data);
+    try {
+      await commentApi.create(newComment);
+      const res = await commentApi.getByPost(Number(id));
+      setComments(res.data);
+    } catch (err) {
+      console.error('Error creating comment:', err);
+    }
   };
 
   if (!post) return <div>Loading...</div>;
 
   return (
     <div className="bg-black min-h-screen">
-      <PostBlock post={post} />
+      <PostBlock post={post} currentUserId={currentUserId} />
       {comments.map((c) => (
         <CommentBlock key={c.comment_id} comment={c} />
       ))}
