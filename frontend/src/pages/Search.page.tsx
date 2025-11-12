@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import Pagination from "@/components/pagination";
 import { PostBlock } from "@/components/postblock";
 import axiosClient from "@/api/axiosClient";
 import { Post } from "@/types/types";
 
 export const SearchPage: React.FC = () => {
-  const { keyword } = useParams<{ keyword: string }>();
+  const { search } = useLocation();
+  const params = new URLSearchParams(search);
+  const keyword = params.get("keyword") || "";
   const [currentPage, setCurrentPage] = useState(1);
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);

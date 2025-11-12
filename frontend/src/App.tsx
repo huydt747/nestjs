@@ -11,7 +11,7 @@ export const App: React.FC = () => {
 			<Route path='/' element={<MainPage />} />
 			<Route path='/topic/:id' element={<TopicPage/>} />
 			<Route path='/post/:id' element={<PostPage/>} />
-			<Route path='/search/:keyword' element={<SearchPage/>} />
+			<Route path="/search" element={<SearchPage />} />
 		</Routes>
 	);
 };
