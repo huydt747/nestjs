@@ -31,8 +31,13 @@ export class PostsService {
     });
   }
 
-  async create(data: Partial<Post>) {
-    const post = this.postRepo.create(data);
+  async create(data: any) {
+    const post = this.postRepo.create({
+      content: data.content,
+      files: data.files || [],
+      user: { user_id: parseInt(data.user_id) },
+      topic: { topic_id: parseInt(data.topic_id) }
+    });
     return this.postRepo.save(post);
   }
 

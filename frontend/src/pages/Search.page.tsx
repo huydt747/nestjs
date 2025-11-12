@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"; // ⬅️ thêm dòng này
+import { useParams, useLocation } from "react-router-dom";
 import Pagination from "@/components/pagination";
 import { PostBlock } from "@/components/postblock";
 import axiosClient from "@/api/axiosClient";
 import { Post } from "@/types/types";
 
 export const SearchPage: React.FC = () => {
-  const { keyword } = useParams<{ keyword: string }>(); // ⬅️ lấy keyword từ URL
+  const { search } = useLocation();
+  const params = new URLSearchParams(search);
+  const keyword = params.get("keyword") || "";
   const [currentPage, setCurrentPage] = useState(1);
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
@@ -17,7 +19,7 @@ export const SearchPage: React.FC = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      if (!keyword) return; // tránh lỗi khi keyword rỗng
+      if (!keyword) return;
       try {
         setLoading(true);
         setError(null);
@@ -41,7 +43,7 @@ export const SearchPage: React.FC = () => {
     };
 
     fetchPosts();
-  }, [keyword, sortBy]); // ⬅️ mỗi khi keyword hoặc sortBy thay đổi thì gọi lại API
+  }, [keyword, sortBy]);
 
   // Pagination
   const indexOfLastPost = currentPage * postsPerPage;

@@ -83,7 +83,7 @@ export const TopicPage: React.FC = () => {
                 </button>
             </div>
 
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-7xl mx-auto min-h-screen">
                 <div className="flex justify-between items-center">
                     <div className="flex">
                         <button 

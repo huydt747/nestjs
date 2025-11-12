@@ -2,10 +2,12 @@ import { useAuth } from "@/auth/AuthContext";
 import AuthModal from "@/auth/AuthModal";
 import NewPost from "@/components/NewPost";
 import React, { useEffect, useState } from "react";
-import bg from "../../assets/background.png";
+import { Link } from "react-router-dom";
 import { PostBlock } from "@/components";
 import axiosClient from "@/api/axiosClient";
 import { Post } from "@/types/types";
+
+import bg from "../../assets/background.png";
 
 export const MainPage: React.FC = () => {
   const [showNewPost, setShowNewPost] = useState(false);
@@ -48,27 +50,39 @@ export const MainPage: React.FC = () => {
         <div className="relative z-30 w-full max-w-6xl mx-auto mt-20">
           <div className="grid grid-cols-4 gap-12 px-12">
             <div className="flex justify-center">
-              <button className="px-14 py-6 border-2 border-[#8927f4] rounded-full bg-black/30 text-white text-xl md:text-2xl shadow-2xl transform -translate-y-4 hover:scale-105 hover:bg-black/50 hover:border-[#ff00ff] transition-all duration-300">
-                SHITTALK
-              </button>
+              <Link
+                to="/topic/1"
+                className="px-14 py-6 border-2 border-[#8927f4] rounded-full bg-black/30 text-white text-xl md:text-2xl shadow-2xl transform -translate-y-4 hover:scale-105 hover:bg-black/50 hover:border-[#ff00ff] transition-all duration-300"
+              >
+                TALKSHOW
+              </Link>
             </div>
 
             <div className="flex justify-center">
-              <button className="px-14 py-6 border-2 border-[#8927f4] rounded-full bg-black/30 text-white text-2xl md:text-3xl shadow-2xl transform translate-y-4 hover:scale-105 hover:bg-black/50 hover:border-[#ff00ff] transition-all duration-300">
+              <Link
+                to="/topic/2"
+                className="px-14 py-6 border-2 border-[#8927f4] rounded-full bg-black/30 text-white text-2xl md:text-3xl shadow-2xl transform translate-y-4 hover:scale-105 hover:bg-black/50 hover:border-[#ff00ff] transition-all duration-300"
+              >
                 ECONOMY
-              </button>
+              </Link>
             </div>
 
             <div className="flex justify-center">
-              <button className="px-14 py-6 border-2 border-[#8927f4] rounded-full bg-black/30 text-white text-2xl md:text-2xl shadow-2xl transform -translate-y-4 hover:scale-105 hover:bg-black/50 hover:border-[#ff00ff] transition-all duration-300 whitespace-nowrap">
+              <Link
+                to="/topic/3"
+                className="px-14 py-6 border-2 border-[#8927f4] rounded-full bg-black/30 text-white text-2xl md:text-2xl shadow-2xl transform -translate-y-4 hover:scale-105 hover:bg-black/50 hover:border-[#ff00ff] transition-all duration-300 whitespace-nowrap"
+              >
                 VIDEO GAMES
-              </button>
+              </Link>
             </div>
 
             <div className="flex justify-center">
-              <button className="px-14 py-6 border-2 border-[#8927f4] rounded-full bg-black/30 text-white text-2xl md:text-3xl shadow-2xl transform translate-y-4 hover:scale-105 hover:bg-black/50 hover:border-[#ff00ff] transition-all duration-300">
+              <Link
+                to="/topic/4"
+                className="px-14 py-6 border-2 border-[#8927f4] rounded-full bg-black/30 text-white text-2xl md:text-3xl shadow-2xl transform translate-y-4 hover:scale-105 hover:bg-black/50 hover:border-[#ff00ff] transition-all duration-300"
+              >
                 JAPAN
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -102,7 +116,7 @@ export const MainPage: React.FC = () => {
           }}
           className="px-6 py-3 bg-[#9600ff] text-white border border-[#9600ff] rounded-lg hover:bg-[#7a00cc] transition"
         >
-          ✏️ Create New Post
+          Create New Post
         </button>
       </div>
 
