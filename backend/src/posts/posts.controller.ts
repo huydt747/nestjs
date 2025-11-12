@@ -44,7 +44,6 @@ export class PostsController {
           try {
             if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
           } catch (err) {
-            // ignore mkdir errors here; multer will bubble up if needed
           }
           cb(null, dir);
         },
@@ -53,7 +52,7 @@ export class PostsController {
           cb(null, name);
         },
       }),
-      limits: { fileSize: 20 * 1024 * 1024 }, // 20MB per file limit
+      limits: { fileSize: 20 * 1024 * 1024 },
     }),
   )
   async create(@UploadedFiles() files: any[], @Body() body: any) {
@@ -70,17 +69,14 @@ export class PostsController {
         path: (f as any).path || `uploads/posts/${f.filename || f.originalname}`,
       }));
 
-      // If client sent nested relations as JSON strings (FormData), parse them
       let parsedBody: any = { ...body };
       try {
         if (typeof parsedBody.user === 'string') parsedBody.user = JSON.parse(parsedBody.user);
       } catch (e) {
-        // ignore parse error
       }
       try {
         if (typeof parsedBody.topic === 'string') parsedBody.topic = JSON.parse(parsedBody.topic);
       } catch (e) {
-        // ignore parse error
       }
 
       const payload = { ...parsedBody, files: fileMetas };

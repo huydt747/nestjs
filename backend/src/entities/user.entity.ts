@@ -30,15 +30,12 @@ export class User {
   @CreateDateColumn()
   created_at: Date;
 
-  // Quan hệ 1-n với Post
   @OneToMany(() => Post, (post) => post.user)
   posts: Post[];
 
-  // Quan hệ 1-n với Comment
   @OneToMany(() => Comment, (comment) => comment.user)
   comments: Comment[];
 
-  // Quan hệ 1-n với Like
   @OneToMany(() => Like, (like) => like.user)
   likes: Like[];
 }
